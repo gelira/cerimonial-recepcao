@@ -1,6 +1,5 @@
 package com.cerimonial.backend.controllers;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +17,7 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<ListEventsDTO> getAllEvents() {
-        return ResponseEntity.ok(
-            new ListEventsDTO(eventRepository.findAll())
-        );
+    public ListEventsDTO getAllEvents() {
+        return new ListEventsDTO(eventRepository.findAll());
     }
 }

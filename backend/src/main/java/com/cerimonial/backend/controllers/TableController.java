@@ -1,6 +1,5 @@
 package com.cerimonial.backend.controllers;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +18,7 @@ public class TableController {
     }
 
     @GetMapping
-    public ResponseEntity<ListTablesDTO> listTables(@RequestParam(value = "eventId") String eventId) {
-        return ResponseEntity.ok(
-            new ListTablesDTO(tableRepository.findByEventId(eventId))
-        );
+    public ListTablesDTO listTables(@RequestParam(value = "eventId") String eventId) {
+        return new ListTablesDTO(tableRepository.findByEventId(eventId));
     }
 }
