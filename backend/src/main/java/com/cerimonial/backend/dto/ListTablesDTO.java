@@ -4,17 +4,11 @@ import java.util.List;
 
 import com.cerimonial.backend.models.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class ListTablesDTO {
     private List<Table> tables;
-
-    public ListTablesDTO() {
-    }
-
-    public ListTablesDTO(List<Table> tables) {
-        this.tables = tables;
-    }
-
-    public List<Table> getTables() {
-        return tables;
-    }
 }

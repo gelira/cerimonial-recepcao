@@ -4,17 +4,11 @@ import java.util.List;
 
 import com.cerimonial.backend.models.Event;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class ListEventsDTO {
     private List<Event> events;
-
-    public ListEventsDTO() {
-    }
-
-    public ListEventsDTO(List<Event> events) {
-        this.events = events;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
 }
