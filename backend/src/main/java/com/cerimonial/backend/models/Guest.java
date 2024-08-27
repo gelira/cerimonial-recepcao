@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
@@ -13,11 +12,8 @@ import lombok.NonNull;
 public class Guest {
     @Id
     private String id;
-    @NonNull
     private String eventId;
-    @NonNull
     private String tableId;
-    @NonNull
     private String name;
     private boolean arrived;
 }

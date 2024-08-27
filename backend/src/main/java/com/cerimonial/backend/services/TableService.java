@@ -21,11 +21,10 @@ public class TableService {
 
     public Table createTable(CreateTableDTO createTableDTO) {
         Table table = new Table();
+
         table.setEventId(createTableDTO.getEventId());
         table.setIdentifier(createTableDTO.getIdentifier());
         table.setLocationDescription(createTableDTO.getLocationDescription());
-        table.setSeatsTotal(0);
-        table.setSeatsOccupied(0);
 
         return tableRepository.save(table);
     }
