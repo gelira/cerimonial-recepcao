@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cerimonial.backend.dto.CreateEventDTO;
 import com.cerimonial.backend.dto.ListEventsDTO;
 import com.cerimonial.backend.models.Event;
-import com.cerimonial.backend.repositories.EventRepository;
 import com.cerimonial.backend.services.EventService;
 
 import jakarta.validation.Valid;
@@ -21,12 +20,11 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/events")
 public class EventController {
-    private EventRepository eventRepository;
     private EventService eventService;
 
     @GetMapping
     public ListEventsDTO getAllEvents() {
-        return new ListEventsDTO(eventRepository.findAll());
+        return new ListEventsDTO(eventService.listEvents());
     }
 
     @PostMapping
