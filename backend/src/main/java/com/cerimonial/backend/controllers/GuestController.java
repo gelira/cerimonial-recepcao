@@ -2,14 +2,22 @@ package com.cerimonial.backend.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.cerimonial.backend.dto.CreateGuestDTO;
 import com.cerimonial.backend.dto.ListGuestsDTO;
+import com.cerimonial.backend.models.Guest;
+import com.cerimonial.backend.models.Table;
 import com.cerimonial.backend.services.GuestService;
+import com.cerimonial.backend.services.TableService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -17,6 +25,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/guests")
 public class GuestController {
     private GuestService guestService;
+    private TableService tableService;
 
     @GetMapping
     public ListGuestsDTO listTables(
@@ -36,5 +45,17 @@ public class GuestController {
         }
 
         return dto;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Guest createGuest(@Valid @RequestBody CreateGuestDTO createGuestDTO) {
+        Table table = tableService.getTable(createGuestDTO.getTableId());
+
+        if (table == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Table not found");
+        }
+
+        return guestService.createGuest(createGuestDTO, table.getEventId());
     }
 }

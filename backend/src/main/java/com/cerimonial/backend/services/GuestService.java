@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.cerimonial.backend.dto.CreateGuestDTO;
 import com.cerimonial.backend.models.Guest;
 import com.cerimonial.backend.repositories.GuestRepository;
 
@@ -20,5 +21,15 @@ public class GuestService {
 
     public List<Guest> listByEventId(String eventId) {
         return guestRepository.findByEventId(eventId);
+    }
+
+    public Guest createGuest(CreateGuestDTO createGuestDTO, String eventId) {
+        Guest guest = new Guest();
+        
+        guest.setEventId(eventId);
+        guest.setName(createGuestDTO.getName());
+        guest.setTableId(createGuestDTO.getTableId());
+        
+        return guestRepository.save(guest);
     }
 }
