@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.cerimonial.backend.dto.ListGuestsDTO;
-import com.cerimonial.backend.repositories.GuestRepository;
+import com.cerimonial.backend.services.GuestService;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/guests")
 public class GuestController {
-    private GuestRepository guestRepository;
-
-    public GuestController(GuestRepository guestRepository) {
-        this.guestRepository = guestRepository;
-    }
+    private GuestService guestService;
 
     @GetMapping
     public ListGuestsDTO listTables(
@@ -28,12 +27,12 @@ public class GuestController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        ListGuestsDTO dto;
+        ListGuestsDTO dto = new ListGuestsDTO();
 
         if (tableId != null) {
-            dto = new ListGuestsDTO(guestRepository.findByTableId(tableId));
+            dto.setGuests(guestService.listByTableId(tableId));
         } else {
-            dto = new ListGuestsDTO(guestRepository.findByEventId(eventId));
+            dto.setGuests(guestService.listByEventId(eventId));
         }
 
         return dto;
