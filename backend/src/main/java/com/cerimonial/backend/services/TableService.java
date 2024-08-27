@@ -29,4 +29,8 @@ public class TableService {
 
         return tableRepository.save(table);
     }
+
+    public Table getTable(String tableId) {
+        return tableRepository.findById(tableId).orElse(null);
+    }
 }
