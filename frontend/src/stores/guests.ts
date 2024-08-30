@@ -37,5 +37,15 @@ export const useGuestsStore = defineStore('guests', () => {
     state.search = search
   }
 
-  return { guests, search, fetchGuests, setSearch }
+  function toggleGuest(guestId: string) {
+    state.guests = state.guests.map((g) => {
+      if (g.id === guestId) {
+        return { ...g, arrived: !g.arrived }
+      }
+
+      return g
+    })
+  }
+
+  return { guests, search, fetchGuests, setSearch, toggleGuest }
 })

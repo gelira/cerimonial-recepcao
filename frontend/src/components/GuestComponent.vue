@@ -9,35 +9,44 @@ const guestsStore = useGuestsStore();
 
 const search = computed(() => guestsStore.search);
 
-const nameSplitted = computed<{ namePart: string, mark: boolean }[]>(() => {
+const nameSplitted = computed<{ part: string, decorate: boolean }[]>(() => {
   const guestName = props.guest.name;
 
-  const cleanedName = removeAccents(guestName.toLowerCase());
   const cleanedSearch = removeAccents(search.value.toLowerCase());
 
-  if (!cleanedSearch || !cleanedName.includes(cleanedSearch)) {
-    return [ { namePart: guestName, mark: false } ];
+  if (!cleanedSearch) {
+    return [ { part: guestName, decorate: false } ];
   }
+
+  const cleanedName = removeAccents(guestName.toLowerCase());
 
   const startIndex = cleanedName.indexOf(cleanedSearch);
   const endIndex = startIndex + cleanedSearch.length;
 
   return [
-    { namePart: guestName.substring(0, startIndex), mark: false },
-    { namePart: guestName.substring(startIndex, endIndex), mark: true },
-    { namePart: guestName.substring(endIndex), mark: false },
+    { part: guestName.substring(0, startIndex), decorate: false },
+    { part: guestName.substring(startIndex, endIndex), decorate: true },
+    { part: guestName.substring(endIndex), decorate: false },
   ];
 });
 </script>
 
 <template>
-  <span v-for="part in nameSplitted" :key="part.namePart" :class="{ 'mark': part.mark }">
-    {{ part.namePart }}
+  <input type="checkbox" :checked="guest.arrived" @change="guestsStore.toggleGuest(guest.id)">
+  <span :class="{ arrived: guest.arrived }">
+    <span v-for="{ part, decorate } in nameSplitted" :key="part" :class="{ decorate }">
+      {{ part }}
+    </span>
   </span>
 </template>
 
 <style scoped>
-.mark {
+.arrived {
+  color: green;
+  text-decoration: line-through;
+}
+
+.decorate {
   font-weight: bold;
   text-decoration: underline;
 }
