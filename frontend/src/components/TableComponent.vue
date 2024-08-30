@@ -7,14 +7,22 @@ import { useGuestsStore } from '@/stores/guests';
 const props = defineProps<{ table: ITable }>();
 const guestsStore = useGuestsStore();
 
-const guests = computed(() => guestsStore.guests.filter((g) => g.tableId === props.table.id));
+const filterCb = (tableId: string) => (g: IGuest) => g.tableId === tableId;
+
+const guestsTable = computed(
+  () => guestsStore.guests.filter(filterCb(props.table.id))
+);
+
+const hasFilteredGuests = computed(
+  () => guestsStore.guestsFiltered.filter(filterCb(props.table.id)).length > 0
+);
 </script>
 
 <template>
-  <div v-show="guests.length > 0">
+  <div v-show="hasFilteredGuests">
     <h4>{{ table.identifier }}</h4>
     <ul>
-      <li v-for="guest in guests" :key="guest.id">
+      <li v-for="guest in guestsTable" :key="guest.id">
         <GuestComponent :guest="guest" />
       </li>
     </ul>

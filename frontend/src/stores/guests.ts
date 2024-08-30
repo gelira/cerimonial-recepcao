@@ -12,7 +12,10 @@ interface State {
 export const useGuestsStore = defineStore('guests', () => {
   const state = reactive<State>({ guests: [], search: '' })
   
-  const guests = computed(() => {
+  const guests = computed(() => state.guests)
+  const search = computed(() => state.search)
+
+  const guestsFiltered = computed(() => {
     if (!state.search) {
       return state.guests
     }
@@ -24,8 +27,6 @@ export const useGuestsStore = defineStore('guests', () => {
       return cleanedName.includes(cleanedSearch);
     })
   })
-  
-  const search = computed(() => state.search)
 
   function fetchGuests(eventId: string) {
     apiFetchGuests(eventId)
@@ -47,5 +48,5 @@ export const useGuestsStore = defineStore('guests', () => {
     })
   }
 
-  return { guests, search, fetchGuests, setSearch, toggleGuest }
+  return { guests, guestsFiltered, search, fetchGuests, setSearch, toggleGuest }
 })

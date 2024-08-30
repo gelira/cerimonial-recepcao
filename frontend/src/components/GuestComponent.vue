@@ -7,18 +7,15 @@ import { removeAccents } from '@/utils';
 const props = defineProps<{ guest: IGuest }>();
 const guestsStore = useGuestsStore();
 
-const search = computed(() => guestsStore.search);
-
 const nameSplitted = computed<{ part: string, decorate: boolean }[]>(() => {
   const guestName = props.guest.name;
 
-  const cleanedSearch = removeAccents(search.value.toLowerCase());
+  const cleanedSearch = removeAccents(guestsStore.search.toLowerCase());
+  const cleanedName = removeAccents(guestName.toLowerCase());
 
-  if (!cleanedSearch) {
+  if (!cleanedSearch || !cleanedName.includes(cleanedSearch)) {
     return [ { part: guestName, decorate: false } ];
   }
-
-  const cleanedName = removeAccents(guestName.toLowerCase());
 
   const startIndex = cleanedName.indexOf(cleanedSearch);
   const endIndex = startIndex + cleanedSearch.length;
