@@ -9,9 +9,22 @@ const guestsStore = useGuestsStore();
 
 const filterCb = (tableId: string) => (g: IGuestCleaned) => g.tableId === tableId;
 
-const guestsTable = computed(
-  () => guestsStore.guests.filter(filterCb(props.table.id))
-);
+const guestsTable = computed(() => {
+  return guestsStore.guests.filter(filterCb(props.table.id)).sort((a, b) => {
+    const aIsFiltered = guestsStore.guestsFiltered.some((g) => g.id === a.id);
+    const bIsFiltered = guestsStore.guestsFiltered.some((g) => g.id === b.id);
+
+    if (aIsFiltered && !bIsFiltered) {
+      return -1;
+    }
+    
+    if (!aIsFiltered && bIsFiltered) {
+      return 1;
+    }
+    
+    return a.name.localeCompare(b.name);
+  });
+});
 
 const hasFilteredGuests = computed(
   () => guestsStore.guestsFiltered.filter(filterCb(props.table.id)).length > 0
