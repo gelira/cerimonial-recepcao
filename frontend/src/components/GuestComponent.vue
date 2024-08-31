@@ -2,16 +2,14 @@
 import { computed } from 'vue';
 
 import { useGuestsStore } from '@/stores/guests';
-import { removeAccents } from '@/utils';
 
-const props = defineProps<{ guest: IGuest }>();
+const props = defineProps<{ guest: IGuestCleaned }>();
 const guestsStore = useGuestsStore();
 
 const nameSplitted = computed<{ part: string, decorate: boolean }[]>(() => {
   const guestName = props.guest.name;
-
-  const cleanedSearch = removeAccents(guestsStore.search.toLowerCase());
-  const cleanedName = removeAccents(guestName.toLowerCase());
+  const cleanedName = props.guest.cleanedName;
+  const cleanedSearch = guestsStore.cleanedSearch;
 
   if (!cleanedSearch || !cleanedName.includes(cleanedSearch)) {
     return [ { part: guestName, decorate: false } ];

@@ -5,7 +5,7 @@ import { apiFetchGuests } from '@/api'
 import { removeAccents } from '@/utils'
 
 interface State {
-  guests: IGuest[]
+  guests: IGuestCleaned[]
   search: string
 }
 
@@ -13,24 +13,23 @@ export const useGuestsStore = defineStore('guests', () => {
   const state = reactive<State>({ guests: [], search: '' })
   
   const guests = computed(() => state.guests)
-  const search = computed(() => state.search)
+  const cleanedSearch = computed(() => removeAccents(state.search.toLowerCase()))
 
   const guestsFiltered = computed(() => {
-    if (!state.search) {
+    if (!cleanedSearch.value) {
       return state.guests
     }
 
-    return state.guests.filter((g) => {
-      const cleanedName = removeAccents(g.name.toLowerCase());
-      const cleanedSearch = removeAccents(state.search.toLowerCase());
-
-      return cleanedName.includes(cleanedSearch);
-    })
+    return state.guests.filter((g) => g.cleanedName.includes(cleanedSearch.value))
   })
 
   function fetchGuests(eventId: string) {
     apiFetchGuests(eventId)
-      .then((data) => state.guests = data.guests)
+      .then((data) => {
+        state.guests = data.guests.map(
+          (g) => ({ ...g, cleanedName: removeAccents(g.name.toLowerCase()) })
+        )
+      })
       .catch(() => state.guests = [])
   }
 
@@ -48,5 +47,5 @@ export const useGuestsStore = defineStore('guests', () => {
     })
   }
 
-  return { guests, guestsFiltered, search, fetchGuests, setSearch, toggleGuest }
+  return { guests, guestsFiltered, cleanedSearch, fetchGuests, setSearch, toggleGuest }
 })

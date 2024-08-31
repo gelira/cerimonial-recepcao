@@ -18,6 +18,10 @@ declare global {
     name: string
     arrived: boolean
   }
+
+  interface IGuestCleaned extends IGuest {
+    cleanedName: string
+  }
 }
 
 export { }

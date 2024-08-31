@@ -7,7 +7,7 @@ import { useGuestsStore } from '@/stores/guests';
 const props = defineProps<{ table: ITable }>();
 const guestsStore = useGuestsStore();
 
-const filterCb = (tableId: string) => (g: IGuest) => g.tableId === tableId;
+const filterCb = (tableId: string) => (g: IGuestCleaned) => g.tableId === tableId;
 
 const guestsTable = computed(
   () => guestsStore.guests.filter(filterCb(props.table.id))
