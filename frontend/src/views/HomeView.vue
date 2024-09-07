@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
-import { useEventsStore } from '@/stores/events';
+import { useEventsStore } from '../stores/events';
 
 const eventsStore = useEventsStore();
 

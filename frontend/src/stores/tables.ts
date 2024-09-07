@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchTables } from '@/api'
+import { apiFetchTables } from '../api'
 
 interface State {
   tables: ITable[]

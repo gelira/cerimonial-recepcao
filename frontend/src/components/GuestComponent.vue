@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { useGuestsStore } from '@/stores/guests';
+import { useGuestsStore } from '../stores/guests';
 
 const props = defineProps<{ guest: IGuestCleaned }>();
 const guestsStore = useGuestsStore();

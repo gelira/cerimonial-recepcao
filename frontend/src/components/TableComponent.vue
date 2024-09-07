@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import GuestComponent from '@/components/GuestComponent.vue';
-import { useGuestsStore } from '@/stores/guests';
+import GuestComponent from '../components/GuestComponent.vue';
+import { useGuestsStore } from '../stores/guests';
 
 const props = defineProps<{ table: ITable }>();
 const guestsStore = useGuestsStore();

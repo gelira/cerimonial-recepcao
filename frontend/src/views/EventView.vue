@@ -2,10 +2,10 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import TableComponent from '@/components/TableComponent.vue';
-import { useEventsStore } from '@/stores/events';
-import { useGuestsStore } from '@/stores/guests';
-import { useTablesStore } from '@/stores/tables';
+import TableComponent from '../components/TableComponent.vue';
+import { useEventsStore } from '../stores/events';
+import { useGuestsStore } from '../stores/guests';
+import { useTablesStore } from '../stores/tables';
 
 const route = useRoute();
 

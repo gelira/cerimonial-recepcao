@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchGuests } from '@/api'
-import { removeAccents } from '@/utils'
+import { apiFetchGuests } from '../api'
+import { removeAccents } from '../utils'
 
 interface State {
   guests: IGuestCleaned[]

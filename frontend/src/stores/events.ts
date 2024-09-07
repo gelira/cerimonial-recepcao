@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchEvents } from '@/api'
+import { apiFetchEvents } from '../api'
 
 interface State {
   events: IEvent[]
