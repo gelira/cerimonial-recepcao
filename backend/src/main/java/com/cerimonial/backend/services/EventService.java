@@ -22,6 +22,7 @@ public class EventService {
     public Event createEvent(CreateEventDTO createEventDTO) {
         Event event = new Event();
         event.setName(createEventDTO.getName());
+        event.setDate(createEventDTO.getDate());
 
         return eventRepository.save(event);
     }
