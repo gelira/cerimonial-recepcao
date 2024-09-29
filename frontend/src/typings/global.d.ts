@@ -2,6 +2,7 @@ declare global {
   interface IEvent {
     id: string
     name: string
+    date: string
   }
 
   interface ITable {
