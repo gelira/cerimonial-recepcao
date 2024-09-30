@@ -15,7 +15,7 @@ const formattedDate = computed(() => {
     <v-card-subtitle>{{ formattedDate }}</v-card-subtitle>
     <v-card-actions class="justify-end">
       <v-btn icon="mdi-pencil-box-outline"></v-btn>
-      <v-btn icon="mdi-clipboard-text"></v-btn>
+      <v-btn icon="mdi-clipboard-text-outline"></v-btn>
       <v-btn icon="mdi-content-save-outline"></v-btn>
     </v-card-actions>
   </v-card>
