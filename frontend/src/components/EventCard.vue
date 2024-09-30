@@ -14,8 +14,9 @@ const formattedDate = computed(() => {
     <v-card-title>{{ props.event.name }}</v-card-title>
     <v-card-subtitle>{{ formattedDate }}</v-card-subtitle>
     <v-card-actions class="justify-end">
-      <v-btn icon="assignment"></v-btn>
-      <v-btn icon="save"></v-btn>
+      <v-btn icon="mdi-pencil-box-outline"></v-btn>
+      <v-btn icon="mdi-clipboard-text"></v-btn>
+      <v-btn icon="mdi-content-save-outline"></v-btn>
     </v-card-actions>
   </v-card>
 </template>
