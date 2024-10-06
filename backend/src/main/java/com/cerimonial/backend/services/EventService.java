@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cerimonial.backend.dto.CreateEventDTO;
+import com.cerimonial.backend.dto.UpdateEventDTO;
 import com.cerimonial.backend.models.Event;
 import com.cerimonial.backend.repositories.EventRepository;
 
@@ -29,5 +30,28 @@ public class EventService {
 
     public Event getEvent(String eventId) {
         return eventRepository.findById(eventId).orElse(null);
+    }
+
+    public void updateEvent(Event event, UpdateEventDTO updateEventDTO) {
+        String newName = updateEventDTO.getName();
+        String newDate = updateEventDTO.getDate();
+        
+        boolean toUpdate = false;
+        
+        if (newName != null && newName != "") {
+            toUpdate = true;
+
+            event.setName(newName);
+        }
+
+        if (newDate != null && newDate != "") {
+            toUpdate = true;
+
+            event.setDate(newDate);
+        }
+
+        if (toUpdate) {
+            eventRepository.save(event);
+        }
     }
 }
