@@ -12,8 +12,14 @@ const event = computed(() => {
   const eventId = route.params.id as string;
   return eventsStore.events.find((e) => e.id === eventId);
 });
+
+function save(value: { name: string, date: string }) {
+  if (event.value) {
+    eventsStore.updateEvent({ id: event.value.id, ...value });
+  }
+}
 </script>
 
 <template>
-  <EventForm :event="event" />
+  <EventForm :event="event" @save="save" />
 </template>

@@ -24,3 +24,15 @@ export async function apiFetchGuests(eventId: string) {
 
   return data as { guests: IGuest[] }
 }
+
+export async function apiUpdateEvent(event: IEvent) {
+  const { id, ...rest } = event
+
+  await fetch(`${BASE_URL}/events/${id}`, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(rest),
+  })
+}

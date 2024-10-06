@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchEvents } from '../api'
+import { apiFetchEvents, apiUpdateEvent } from '../api'
 
 interface State {
   events: IEvent[]
@@ -18,5 +18,19 @@ export const useEventsStore = defineStore('events', () => {
       .catch(() => state.events = [])
   }
 
-  return { events, fetchEvents }
+  function updateEvent(event: IEvent) {
+    apiUpdateEvent(event)
+      .then(() => {
+        const { id, name, date } = event
+        state.events = state.events.map((e) => {
+          if (e.id !== id) {
+            return e
+          }
+          return { ...e, date, name }
+        })
+      })
+      .catch(() => {})
+  }
+
+  return { events, fetchEvents, updateEvent }
 })

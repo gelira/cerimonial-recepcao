@@ -3,6 +3,10 @@ import { computed, reactive, watch } from 'vue';
 
 const props = defineProps<{ event?: IEvent }>();
 
+const emit = defineEmits<{
+  (e: 'save', value: { name: string, date: string }): void
+}>();
+
 const state = reactive({ name: '', date: '' });
 
 const invalidForm = computed(() => {
@@ -19,6 +23,15 @@ watch(
   },
   { immediate: true }
 );
+
+function emitSave() {
+  if (!invalidForm.value) {
+    emit('save', {
+      name: state.name,
+      date: state.date,
+    });
+  }
+}
 </script>
 
 <template>
@@ -65,6 +78,7 @@ watch(
       <v-btn
         color="success"
         :disabled="invalidForm"
+        @click="emitSave()"
       >Salvar</v-btn>
     </v-col>
   </v-row>
