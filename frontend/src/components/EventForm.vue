@@ -7,10 +7,10 @@ const emit = defineEmits<{
   (e: 'save', value: { name: string, date: string }): void
 }>();
 
-const state = reactive({ name: '', date: '' });
+const state = reactive({ name: '', date: '', hasChanged: false });
 
 const invalidForm = computed(() => {
-  return !state.name || !state.date;
+  return !state.name || !state.date || !state.hasChanged;
 });
 
 watch(
@@ -22,6 +22,20 @@ watch(
     }
   },
   { immediate: true }
+);
+
+watch(
+  () => `${state.name}|${state.date}`,
+  (v) => {
+    if (!props.event) {
+      state.hasChanged = true;
+      return;
+    }
+    
+    const strCompare = `${props.event.name}|${props.event.date}`;
+
+    state.hasChanged = strCompare !== v;
+  }
 );
 
 function emitSave() {
