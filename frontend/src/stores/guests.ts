@@ -33,6 +33,10 @@ export const useGuestsStore = defineStore('guests', () => {
       .catch(() => state.guests = [])
   }
 
+  function cleanGuests() {
+    state.guests = []
+  }
+
   function setSearch(search: string) {
     state.search = search
   }
@@ -47,5 +51,5 @@ export const useGuestsStore = defineStore('guests', () => {
     })
   }
 
-  return { guests, guestsFiltered, cleanedSearch, fetchGuests, setSearch, toggleGuest }
+  return { guests, guestsFiltered, cleanedSearch, fetchGuests, cleanGuests, setSearch, toggleGuest }
 })

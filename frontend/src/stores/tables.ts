@@ -18,5 +18,9 @@ export const useTablesStore = defineStore('tables', () => {
       .catch(() => state.tables = [])
   }
 
-  return { tables, fetchTables }
+  function cleanTables() {
+    state.tables = []
+  }
+
+  return { tables, fetchTables, cleanTables }
 })
