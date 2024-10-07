@@ -36,3 +36,15 @@ export async function apiUpdateEvent(event: IEvent) {
     body: JSON.stringify(rest),
   })
 }
+
+export async function apiCreateTable(table: ITable) {
+  const { id: _, ...rest } = table
+
+  await fetch(`${BASE_URL}/tables`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(rest),
+  })
+}

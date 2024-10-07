@@ -2,15 +2,17 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { useEventsStore } from '../stores/events';
 import EventForm from '../components/EventForm.vue';
+import TablesEditList from '../components/TablesEditList.vue';
+import { useEventsStore } from '../stores/events';
 
 const route = useRoute();
 const eventsStore = useEventsStore();
 
+const eventId = computed(() => route.params.id as string);
+
 const event = computed(() => {
-  const eventId = route.params.id as string;
-  return eventsStore.events.find((e) => e.id === eventId);
+  return eventsStore.events.find((e) => e.id === eventId.value);
 });
 
 function save(value: { name: string, date: string }) {
@@ -22,4 +24,5 @@ function save(value: { name: string, date: string }) {
 
 <template>
   <EventForm :event="event" @save="save" />
+  <TablesEditList :event-id="eventId" />
 </template>

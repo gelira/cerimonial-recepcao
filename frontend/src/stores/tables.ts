@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchTables } from '../api'
+import { apiCreateTable, apiFetchTables } from '../api'
 
 interface State {
   tables: ITable[]
@@ -22,5 +22,12 @@ export const useTablesStore = defineStore('tables', () => {
     state.tables = []
   }
 
-  return { tables, fetchTables, cleanTables }
+  async function createTable(table: ITable) {
+    try {
+      await apiCreateTable(table)
+      fetchTables(table.eventId)
+    } catch {}
+  }
+
+  return { tables, fetchTables, cleanTables, createTable }
 })
