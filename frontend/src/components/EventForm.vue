@@ -27,14 +27,9 @@ watch(
 watch(
   () => `${state.name}|${state.date}`,
   (v) => {
-    if (!props.event) {
-      state.hasChanged = true;
-      return;
-    }
-    
-    const strCompare = `${props.event.name}|${props.event.date}`;
-
-    state.hasChanged = strCompare !== v;
+    state.hasChanged = props.event
+      ? `${props.event.name}|${props.event.date}` !== v
+      : true;
   }
 );
 
