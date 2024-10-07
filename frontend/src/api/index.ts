@@ -48,3 +48,9 @@ export async function apiCreateTable(table: ITable) {
     body: JSON.stringify(rest),
   })
 }
+
+export async function apiDeleteTable(tableId: string) {
+  await fetch(`${BASE_URL}/tables/${tableId}`, {
+    method: 'DELETE',
+  })
+}

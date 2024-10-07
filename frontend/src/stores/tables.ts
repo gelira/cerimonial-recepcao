@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiCreateTable, apiFetchTables } from '../api'
+import { apiCreateTable, apiDeleteTable, apiFetchTables } from '../api'
 
 interface State {
   tables: ITable[]
@@ -25,9 +25,18 @@ export const useTablesStore = defineStore('tables', () => {
   async function createTable(table: ITable) {
     try {
       await apiCreateTable(table)
+      
       fetchTables(table.eventId)
     } catch {}
   }
 
-  return { tables, fetchTables, cleanTables, createTable }
+  async function deleteTable(tableId: string) {
+    try {
+      await apiDeleteTable(tableId)
+      
+      state.tables = state.tables.filter((t) => t.id !== tableId)
+    } catch {}
+  }
+
+  return { tables, fetchTables, cleanTables, createTable, deleteTable }
 })
