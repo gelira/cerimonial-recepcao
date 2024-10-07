@@ -1,30 +1,24 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
-import { useGuestsStore } from '../stores/guests';
 import DeleteTableDialog from './DeleteTableDialog.vue';
+import GuestsEditList from './GuestsEditList.vue';
 
-const props = defineProps<{ table: ITable }>();
-
-const guestsStore = useGuestsStore();
-
-const guests = computed(() => {
-  return guestsStore.guests.filter((g) => g.tableId === props.table.id);
-})
+defineProps<{ table: ITable }>();
 </script>
 
 <template>
   <v-expansion-panel>
     <v-expansion-panel-title>
-      <template #default>{{ props.table.identifier }}</template>
+      <template #default>{{ table.identifier }}</template>
       <template #actions="{ expanded }">
         <div class="actions-container">
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"></v-icon>
-          <DeleteTableDialog :table-id="props.table.id" />
+          <DeleteTableDialog :table-id="table.id" />
         </div>
       </template>
     </v-expansion-panel-title>
-    <v-expansion-panel-text>{{ JSON.stringify(guests) }}</v-expansion-panel-text>
+    <v-expansion-panel-text>
+      <GuestsEditList :table-id="table.id" />
+    </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
