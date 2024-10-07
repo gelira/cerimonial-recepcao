@@ -32,4 +32,8 @@ public class TableService {
     public Table getTable(String tableId) {
         return tableRepository.findById(tableId).orElse(null);
     }
+
+    public void deleteTable(Table table) {
+        tableRepository.delete(table);
+    }
 }
