@@ -79,3 +79,11 @@ watch(
     </v-col>
   </v-row>
 </template>
+
+<style scoped>
+@media screen and (min-width: 64em) {
+  .v-card {
+    min-width: 600px;
+  }
+}
+</style>

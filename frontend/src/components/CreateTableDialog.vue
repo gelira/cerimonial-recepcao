@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 
 import { useTablesStore } from '../stores/tables'
-import TableForm from './TableForm.vue';
+import TableForm from './TableForm.vue'
 
 const props = defineProps<{ eventId: string }>()
 
@@ -49,11 +49,3 @@ function save(value: { identifier: string, locationDescription: string }) {
     />
   </v-dialog>
 </template>
-
-<style scoped>
-@media screen and (min-width: 64em) {
-  .v-card {
-    min-width: 600px;
-  }
-}
-</style>
