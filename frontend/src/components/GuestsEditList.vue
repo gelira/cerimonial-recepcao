@@ -27,42 +27,46 @@ function addGuest() {
 </script>
 
 <template>
-  <v-row>
-    <v-col>
-      <v-text-field
-        label="Nome do(a) convidado(a)"
-        variant="underlined"
-        v-model="state.guestName"
-        clearable
-      ></v-text-field>
-    </v-col>
-    <v-col>
-      <v-btn
-        color="success"
-        :disabled="!state.guestName?.length"
-        @click="addGuest()"
-      >Adicionar</v-btn>
-    </v-col>
-  </v-row>
+  <v-card title="Lista de convidados(as)">
+    <v-card-text>
+      <v-row>
+        <v-col>
+          <v-text-field
+            label="Nome do(a) convidado(a)"
+            variant="underlined"
+            v-model="state.guestName"
+            clearable
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-btn
+            color="success"
+            :disabled="!state.guestName?.length"
+            @click="addGuest()"
+          >Adicionar</v-btn>
+        </v-col>
+      </v-row>
 
-  <v-list>
-    <v-list-item
-      v-for="guest in props.guests"
-      :key="guest.id"
-      variant="plain"
-    >
-      <v-list-item-title>
-        <v-btn
-          icon="mdi-trash-can-outline"
-          color="error"
-          size="small"
-          variant="tonal"
-          @click="guestsStore.deleteGuest(guest.id)"
-        ></v-btn>
-        <span>{{ guest.name }}</span>
-      </v-list-item-title>
-    </v-list-item>
-  </v-list>
+      <v-list>
+        <v-list-item
+          v-for="guest in props.guests"
+          :key="guest.id"
+          variant="plain"
+        >
+          <v-list-item-title>
+            <v-btn
+              icon="mdi-trash-can-outline"
+              color="error"
+              size="small"
+              variant="tonal"
+              @click="guestsStore.deleteGuest(guest.id)"
+            ></v-btn>
+            <span>{{ guest.name }}</span>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
+  </v-card>
 </template>
 
 <style scoped>
