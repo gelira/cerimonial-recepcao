@@ -30,6 +30,10 @@ const guests = computed(
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
+      <div
+        v-if="table.locationDescription"
+        class="location-description"
+      >Localização: {{ table.locationDescription }}</div>
       <GuestsEditList
         :event-id="table.eventId"
         :table-id="table.id"
@@ -45,5 +49,9 @@ const guests = computed(
   flex-direction: row;
   align-items: center;
   gap: 8px;
+}
+
+.location-description {
+  margin: 0 0 8px;
 }
 </style>
