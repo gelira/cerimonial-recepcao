@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
 
 import { useTablesStore } from '../stores/tables'
+import TableForm from './TableForm.vue';
 
 const props = defineProps<{ eventId: string }>()
 
@@ -9,28 +10,18 @@ const tablesStore = useTablesStore()
 
 const state = reactive({
   openDialog: false,
-  identifier: '',
-  locationDescription: '',
 })
-
-const invalidForm = computed(() => !state.identifier?.length)
 
 function closeDialog() {
   state.openDialog = false
-  state.identifier = ''
-  state.locationDescription = ''
 }
 
-function save() {
-  if (invalidForm.value) {
-    return
-  }
-
+function save(value: { identifier: string, locationDescription: string }) {
   tablesStore.createTable({
     id: '',
     eventId: props.eventId,
-    identifier: state.identifier ?? '',
-    locationDescription: state.locationDescription ?? '',
+    identifier: value.identifier,
+    locationDescription: value.locationDescription,
   })
     .then(() => closeDialog())
 }
@@ -51,39 +42,11 @@ function save() {
       ></v-btn>
     </template>
 
-    <v-row justify="center">
-      <v-col class="v-col-auto">
-        <v-card>
-          <v-card-title>Nova Mesa</v-card-title>
-          <v-card-text>
-            <v-text-field
-              clearable
-              label="Identificador da mesa"
-              variant="underlined"
-              v-model="state.identifier"
-            ></v-text-field>
-            <v-text-field
-              clearable
-              label="Localização"
-              variant="underlined"
-              v-model="state.locationDescription"
-            ></v-text-field>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              @click="save()"
-              :disabled="invalidForm"
-              color="success"
-            >Salvar</v-btn>
-            <v-btn
-              @click="closeDialog()"
-              color="error"
-            >Fechar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+    <TableForm
+      title="Nova mesa"
+      @save="save"
+      @close="closeDialog"
+    />
   </v-dialog>
 </template>
 
