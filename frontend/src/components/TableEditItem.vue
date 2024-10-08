@@ -1,8 +1,18 @@
 <script setup lang="ts">
-import DeleteTableDialog from './DeleteTableDialog.vue';
-import GuestsEditList from './GuestsEditList.vue';
+import { computed } from 'vue'
 
-defineProps<{ table: ITable }>();
+import { useGuestsStore } from '../stores/guests'
+
+import DeleteTableDialog from './DeleteTableDialog.vue'
+import GuestsEditList from './GuestsEditList.vue'
+
+const props = defineProps<{ table: ITable }>()
+
+const guestsStore = useGuestsStore()
+
+const guests = computed(
+  () => guestsStore.guests.filter((g) => g.tableId === props.table.id)
+)
 </script>
 
 <template>
@@ -11,13 +21,18 @@ defineProps<{ table: ITable }>();
       <template #default>{{ table.identifier }}</template>
       <template #actions="{ expanded }">
         <div class="actions-container">
+          <span>({{ guests.length }})</span>
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"></v-icon>
           <DeleteTableDialog :table-id="table.id" />
         </div>
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <GuestsEditList :event-id="table.eventId" :table-id="table.id" />
+      <GuestsEditList
+        :event-id="table.eventId"
+        :table-id="table.id"
+        :guests="guests"
+      />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>

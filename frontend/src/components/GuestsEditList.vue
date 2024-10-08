@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
 
 import { useGuestsStore } from '../stores/guests'
 
-const props = defineProps<{ eventId: string, tableId: string }>()
+const props = defineProps<{
+  eventId: string,
+  tableId: string,
+  guests: IGuestCleaned[],
+}>()
 
 const guestsStore = useGuestsStore()
 
 const state = reactive({ guestName: '' })
-
-const guests = computed(
-  () => guestsStore.guests.filter((g) => g.tableId === props.tableId)
-)
 
 function addGuest() {
   if (!state.guestName?.length) {
@@ -47,7 +47,7 @@ function addGuest() {
 
   <v-list>
     <v-list-item
-      v-for="guest in guests"
+      v-for="guest in props.guests"
       :key="guest.id"
       variant="plain"
     >
