@@ -5,6 +5,7 @@ import { useGuestsStore } from '../stores/guests'
 
 import DeleteTableDialog from './DeleteTableDialog.vue'
 import GuestsEditList from './GuestsEditList.vue'
+import EditTableDialog from './EditTableDialog.vue';
 
 const props = defineProps<{ table: ITable }>()
 
@@ -23,6 +24,7 @@ const guests = computed(
         <div class="actions-container">
           <span>({{ guests.length }})</span>
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"></v-icon>
+          <EditTableDialog :table="table" />
           <DeleteTableDialog :table-id="table.id" />
         </div>
       </template>

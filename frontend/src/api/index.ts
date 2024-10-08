@@ -70,3 +70,15 @@ export async function apiDeleteGuest(guestId: string) {
     method: 'DELETE',
   })
 }
+
+export async function apiUpdateTable(body: { id: string, identifier: string, locationDescription: string }) {
+  const { id, ...rest } = body
+
+  await fetch(`${BASE_URL}/tables/${id}`, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(rest),
+  })
+}

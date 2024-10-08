@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.cerimonial.backend.dto.CreateTableDTO;
 import com.cerimonial.backend.dto.ListTablesDTO;
+import com.cerimonial.backend.dto.UpdateTableDTO;
 import com.cerimonial.backend.models.Table;
 import com.cerimonial.backend.services.EventService;
 import com.cerimonial.backend.services.TableService;
@@ -53,5 +55,20 @@ public class TableController {
         }
 
         tableService.deleteTable(table);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateTable(
+        @PathVariable("id") String tableId,
+        @Valid @RequestBody UpdateTableDTO updateTableDTO
+    ) {
+        Table table = tableService.getTable(tableId);
+
+        if (table == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        tableService.updateTable(table, updateTableDTO);
     }
 }

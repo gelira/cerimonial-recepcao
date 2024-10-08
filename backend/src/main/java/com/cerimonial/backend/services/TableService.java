@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cerimonial.backend.dto.CreateTableDTO;
+import com.cerimonial.backend.dto.UpdateTableDTO;
 import com.cerimonial.backend.models.Table;
 import com.cerimonial.backend.repositories.TableRepository;
 
@@ -35,5 +36,18 @@ public class TableService {
 
     public void deleteTable(Table table) {
         tableRepository.delete(table);
+    }
+
+    public void updateTable(Table table, UpdateTableDTO updateTableDTO) {
+        String newIdentifier = updateTableDTO.getIdentifier();
+        String newLocationDescription = updateTableDTO.getLocationDescription();
+        
+        if (newIdentifier != null && newIdentifier != "") {
+            table.setIdentifier(newIdentifier);
+        }
+
+        table.setLocationDescription(newLocationDescription);
+
+        tableRepository.save(table);
     }
 }
