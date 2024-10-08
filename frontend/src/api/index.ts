@@ -54,3 +54,19 @@ export async function apiDeleteTable(tableId: string) {
     method: 'DELETE',
   })
 }
+
+export async function apiCreateGuest(body: { tableId: string, name: string }) {
+  await fetch(`${BASE_URL}/guests`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+}
+
+export async function apiDeleteGuest(guestId: string) {
+  await fetch(`${BASE_URL}/guests/${guestId}`, {
+    method: 'DELETE',
+  })
+}

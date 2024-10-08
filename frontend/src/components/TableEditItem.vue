@@ -17,7 +17,7 @@ defineProps<{ table: ITable }>();
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <GuestsEditList :table-id="table.id" />
+      <GuestsEditList :event-id="table.eventId" :table-id="table.id" />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>

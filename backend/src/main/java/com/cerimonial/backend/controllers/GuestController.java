@@ -1,7 +1,9 @@
 package com.cerimonial.backend.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,5 +59,17 @@ public class GuestController {
         }
 
         return guestService.createGuest(createGuestDTO, table.getEventId());
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteGuest(@PathVariable("id") String guestId) {
+        Guest guest = guestService.getGuest(guestId);
+
+        if (guest == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        guestService.deleteGuest(guest);
     }
 }

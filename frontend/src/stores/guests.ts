@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchGuests } from '../api'
+import { apiCreateGuest, apiDeleteGuest, apiFetchGuests } from '../api'
 import { removeAccents } from '../utils'
 
 interface State {
@@ -51,5 +51,21 @@ export const useGuestsStore = defineStore('guests', () => {
     })
   }
 
-  return { guests, guestsFiltered, cleanedSearch, fetchGuests, cleanGuests, setSearch, toggleGuest }
+  async function createGuest(eventId: string, body: { tableId: string, name: string }) {
+    try {
+      await apiCreateGuest(body)
+
+      fetchGuests(eventId)
+    } catch {}
+  }
+
+  async function deleteGuest(guestId: string) {
+    try {
+      await apiDeleteGuest(guestId)
+
+      state.guests = state.guests.filter((g) => g.id !== guestId)
+    } catch {}
+  }
+
+  return { guests, guestsFiltered, cleanedSearch, fetchGuests, cleanGuests, setSearch, toggleGuest, deleteGuest, createGuest }
 })

@@ -32,4 +32,12 @@ public class GuestService {
         
         return guestRepository.save(guest);
     }
+
+    public Guest getGuest(String guestId) {
+        return guestRepository.findById(guestId).orElse(null);
+    }
+
+    public void deleteGuest(Guest guest) {
+        guestRepository.delete(guest);
+    }
 }

@@ -1,18 +1,50 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 
 import { useGuestsStore } from '../stores/guests'
 
-const props = defineProps<{ tableId: string }>()
+const props = defineProps<{ eventId: string, tableId: string }>()
 
 const guestsStore = useGuestsStore()
+
+const state = reactive({ guestName: '' })
 
 const guests = computed(
   () => guestsStore.guests.filter((g) => g.tableId === props.tableId)
 )
+
+function addGuest() {
+  if (!state.guestName?.length) {
+    return
+  }
+
+  guestsStore.createGuest(props.eventId, {
+    tableId: props.tableId,
+    name: state.guestName,
+  })
+    .then(() => state.guestName = '')
+}
 </script>
 
 <template>
+  <v-row>
+    <v-col>
+      <v-text-field
+        label="Nome do(a) convidado(a)"
+        variant="underlined"
+        v-model="state.guestName"
+        clearable
+      ></v-text-field>
+    </v-col>
+    <v-col>
+      <v-btn
+        color="success"
+        :disabled="!state.guestName?.length"
+        @click="addGuest()"
+      >Adicionar</v-btn>
+    </v-col>
+  </v-row>
+
   <v-list>
     <v-list-item
       v-for="guest in guests"
@@ -25,6 +57,7 @@ const guests = computed(
           color="error"
           size="small"
           variant="tonal"
+          @click="guestsStore.deleteGuest(guest.id)"
         ></v-btn>
         <span>{{ guest.name }}</span>
       </v-list-item-title>
