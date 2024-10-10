@@ -1,44 +1,42 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue'
 
-const props = defineProps<{ event?: IEvent }>();
+const props = defineProps<{ event?: IEvent }>()
 
 const emit = defineEmits<{
   (e: 'save', value: { name: string, date: string }): void
-}>();
+}>()
 
-const state = reactive({ name: '', date: '', hasChanged: false });
+const state = reactive({ name: '', date: '' })
 
 const invalidForm = computed(() => {
-  return !state.name || !state.date || !state.hasChanged;
-});
+  const name = (state.name ?? '').trim()
+  const date = (state.date ?? '').trim()
+
+  if (!props.event) {
+    return !name || !date
+  }
+
+  return props.event.name === name && props.event.date === date
+})
 
 watch(
   () => props.event,
   (e) => {
     if (e) {
-      state.name = e.name;
-      state.date = e.date;
+      state.name = e.name
+      state.date = e.date
     }
   },
   { immediate: true }
-);
-
-watch(
-  () => `${state.name}|${state.date}`,
-  (v) => {
-    state.hasChanged = props.event
-      ? `${props.event.name}|${props.event.date}` !== v
-      : true;
-  }
-);
+)
 
 function emitSave() {
   if (!invalidForm.value) {
     emit('save', {
       name: state.name,
       date: state.date,
-    });
+    })
   }
 }
 </script>
