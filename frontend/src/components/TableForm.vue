@@ -13,16 +13,19 @@ const state = reactive({
 })
 
 const invalidForm = computed(() => {
-  if (!state.identifier?.length) {
-    return false
-  }
+  const identifier = (state.identifier ?? '').trim()
+  const locationDescription = (state.locationDescription ?? '').trim()
 
-  if (!props.table) {
+  if (!identifier.length) {
     return true
   }
 
-  return props.table.identifier === state.identifier.trim() &&
-    props.table.locationDescription === (state.locationDescription ?? '').trim()
+  if (!props.table) {
+    return false
+  }
+
+  return props.table.identifier === identifier &&
+    props.table.locationDescription === locationDescription
 })
 
 function close() {
