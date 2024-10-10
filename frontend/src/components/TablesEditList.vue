@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue'
 
-import TableEditItem from './TableEditItem.vue';
-import CreateTableDialog from './CreateTableDialog.vue';
-import { useTablesStore } from '../stores/tables';
-import { useGuestsStore } from '../stores/guests';
+import TableEditItem from './TableEditItem.vue'
+import CreateTableDialog from './CreateTableDialog.vue'
+import { useTablesStore } from '../stores/tables'
+import { useGuestsStore } from '../stores/guests'
 
-const props = defineProps<{ eventId: string }>();
+const props = defineProps<{ eventId: string }>()
 
-const tablesStore = useTablesStore();
-const guestsStore = useGuestsStore();
+const tablesStore = useTablesStore()
+const guestsStore = useGuestsStore()
 
 onMounted(() => {
-  tablesStore.fetchTables(props.eventId);
-  guestsStore.fetchGuests(props.eventId);
-});
+  tablesStore.fetchTables(props.eventId)
+  guestsStore.fetchGuests(props.eventId)
+})
 
 onUnmounted(() => {
-  tablesStore.cleanTables();
-  guestsStore.cleanGuests();
-});
+  tablesStore.cleanTables()
+  guestsStore.cleanGuests()
+})
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 
 import { useTablesStore } from '../stores/tables'
-import TableForm from './TableForm.vue';
+import TableForm from './TableForm.vue'
 
 const props = defineProps<{ table: ITable }>()
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 
 import { useGuestsStore } from '../stores/guests'
 
@@ -13,14 +13,16 @@ const guestsStore = useGuestsStore()
 
 const state = reactive({ guestName: '' })
 
+const invalidForm = computed(() => !(state.guestName ?? '').trim().length)
+
 function addGuest() {
-  if (!state.guestName?.length) {
+  if (invalidForm.value) {
     return
   }
 
   guestsStore.createGuest(props.eventId, {
     tableId: props.tableId,
-    name: state.guestName,
+    name: state.guestName.trim(),
   })
     .then(() => state.guestName = '')
 }
@@ -41,7 +43,7 @@ function addGuest() {
         <v-col>
           <v-btn
             color="success"
-            :disabled="!state.guestName?.length"
+            :disabled="invalidForm"
             @click="addGuest()"
           >Adicionar</v-btn>
         </v-col>

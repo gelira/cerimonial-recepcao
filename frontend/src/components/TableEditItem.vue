@@ -5,7 +5,7 @@ import { useGuestsStore } from '../stores/guests'
 
 import DeleteTableDialog from './DeleteTableDialog.vue'
 import GuestsEditList from './GuestsEditList.vue'
-import EditTableDialog from './EditTableDialog.vue';
+import EditTableDialog from './EditTableDialog.vue'
 
 const props = defineProps<{ table: ITable }>()
 
