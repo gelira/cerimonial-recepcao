@@ -12,7 +12,18 @@ const state = reactive({
   locationDescription: '',
 })
 
-const invalidForm = computed(() => !state.identifier?.length)
+const invalidForm = computed(() => {
+  if (!state.identifier?.length) {
+    return false
+  }
+
+  if (!props.table) {
+    return true
+  }
+
+  return props.table.identifier === state.identifier.trim() &&
+    props.table.locationDescription === (state.locationDescription ?? '').trim()
+})
 
 function close() {
   emit('close')
@@ -26,8 +37,8 @@ function save() {
   }
 
   emit('save', {
-    identifier: state.identifier,
-    locationDescription: state.locationDescription ?? '',
+    identifier: state.identifier.trim(),
+    locationDescription: (state.locationDescription ?? '').trim(),
   })
 
   close()
