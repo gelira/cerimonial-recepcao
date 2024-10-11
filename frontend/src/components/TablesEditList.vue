@@ -6,14 +6,14 @@ import CreateTableDialog from './CreateTableDialog.vue'
 import { useTablesStore } from '../stores/tables'
 import { useGuestsStore } from '../stores/guests'
 
-const props = defineProps<{ eventId: string }>()
+const props = defineProps<{ event: IEvent }>()
 
 const tablesStore = useTablesStore()
 const guestsStore = useGuestsStore()
 
 onMounted(() => {
-  tablesStore.fetchTables(props.eventId)
-  guestsStore.fetchGuests(props.eventId)
+  tablesStore.fetchTables(props.event.id)
+  guestsStore.fetchGuests(props.event.id)
 })
 
 onUnmounted(() => {
@@ -26,7 +26,7 @@ onUnmounted(() => {
   <v-card>
     <v-card-title>
       <div class="v-card-title">Mesas</div>
-      <CreateTableDialog :event-id="props.eventId" />
+      <CreateTableDialog :event="props.event" />
     </v-card-title>
     <v-card-text>
       <v-expansion-panels variant="accordion" elevation="1">

@@ -4,7 +4,7 @@ import { reactive } from 'vue'
 import { useTablesStore } from '../stores/tables'
 import TableForm from './TableForm.vue'
 
-const props = defineProps<{ eventId: string }>()
+const props = defineProps<{ event: IEvent }>()
 
 const tablesStore = useTablesStore()
 
@@ -19,7 +19,7 @@ function closeDialog() {
 function save(value: { identifier: string, locationDescription: string }) {
   tablesStore.createTable({
     id: '',
-    eventId: props.eventId,
+    eventId: props.event.id,
     identifier: value.identifier,
     locationDescription: value.locationDescription,
   })

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
-import { ROUTE_NAMES } from '../utils/consts';
+import { ROUTE_NAMES } from '../utils/consts'
 
-const props = defineProps<{ event: IEvent }>();
+const props = defineProps<{ event: IEvent }>()
 
-const router = useRouter();
+const router = useRouter()
 
 const formattedDate = computed(() => {
-  const [year, month, day] = props.event.date.split('-');
-  return `${day}/${month}/${year}`;
-});
+  const [year, month, day] = props.event.date.split('-')
+  return `${day}/${month}/${year}`
+})
 
 function goToEditView() {
   router.push({
@@ -19,7 +19,7 @@ function goToEditView() {
     params: {
       id: props.event.id,
     },
-  });
+  })
 }
 </script>
 

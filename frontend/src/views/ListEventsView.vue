@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import EventCard from '../components/EventCard.vue';
-import { useEventsStore } from '../stores/events';
+import EventCard from '../components/EventCard.vue'
+import { useEventsStore } from '../stores/events'
 
-const eventsStore = useEventsStore();
+const eventsStore = useEventsStore()
 </script>
 
 <template>
