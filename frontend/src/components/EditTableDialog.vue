@@ -39,7 +39,7 @@ function save(value: { identifier: string, locationDescription: string }) {
 
     <TableForm
       title="Editar mesa"
-      :table="props.table"
+      :table="table"
       @save="save"
       @close="closeDialog"
     />

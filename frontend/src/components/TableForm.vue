@@ -62,7 +62,7 @@ watch(
 <template>
   <v-row justify="center">
     <v-col class="v-col-auto">
-      <v-card :title="props.title">
+      <v-card :title="title">
         <v-card-text>
           <v-text-field
             clearable

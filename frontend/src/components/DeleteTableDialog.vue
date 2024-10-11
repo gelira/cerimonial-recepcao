@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
 
 import { useTablesStore } from '../stores/tables'
 
-const props = defineProps<{ tableId: string }>()
+const props = defineProps<{ table: ITable }>()
 
 const tablesStore = useTablesStore()
 
@@ -11,15 +11,13 @@ const state = reactive({
   openDialog: false,
 })
 
-const table = computed(() => tablesStore.tables.find((t) => t.id === props.tableId))
-
 function closeDialog() {
   state.openDialog = false
 }
 
 function deleteTable() {
   closeDialog()
-  tablesStore.deleteTable(props.tableId)
+  tablesStore.deleteTable(props.table.id)
 }
 </script>
 
@@ -44,7 +42,7 @@ function deleteTable() {
         <v-card>
           <v-card-title>Deletar mesa</v-card-title>
           <v-card-text>
-            Deseja mesmo deletar a mesa {{ table?.identifier }}?
+            Deseja mesmo deletar a mesa {{ table.identifier }}?
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>

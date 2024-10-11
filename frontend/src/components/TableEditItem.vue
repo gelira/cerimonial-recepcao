@@ -25,7 +25,7 @@ const guests = computed(
           <span>({{ guests.length }})</span>
           <v-icon :icon="expanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"></v-icon>
           <EditTableDialog :table="table" />
-          <DeleteTableDialog :table-id="table.id" />
+          <DeleteTableDialog :table="table" />
         </div>
       </template>
     </v-expansion-panel-title>
@@ -35,8 +35,7 @@ const guests = computed(
         class="location-description"
       >Localização: {{ table.locationDescription }}</div>
       <GuestsEditList
-        :event-id="table.eventId"
-        :table-id="table.id"
+        :table="table"
         :guests="guests"
       />
     </v-expansion-panel-text>

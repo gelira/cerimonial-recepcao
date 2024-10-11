@@ -25,7 +25,7 @@ function goToEditView() {
 
 <template>
   <v-card>
-    <v-card-title>{{ props.event.name }}</v-card-title>
+    <v-card-title>{{ event.name }}</v-card-title>
     <v-card-subtitle>{{ formattedDate }}</v-card-subtitle>
     <v-card-actions class="justify-end">
       <v-btn icon="mdi-pencil-box-outline" @click="goToEditView()"></v-btn>

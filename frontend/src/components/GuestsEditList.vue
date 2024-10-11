@@ -4,8 +4,7 @@ import { computed, reactive } from 'vue'
 import { useGuestsStore } from '../stores/guests'
 
 const props = defineProps<{
-  eventId: string,
-  tableId: string,
+  table: ITable,
   guests: IGuestCleaned[],
 }>()
 
@@ -20,8 +19,8 @@ function addGuest() {
     return
   }
 
-  guestsStore.createGuest(props.eventId, {
-    tableId: props.tableId,
+  guestsStore.createGuest(props.table.eventId, {
+    tableId: props.table.id,
     name: state.guestName.trim(),
   })
     .then(() => state.guestName = '')
@@ -51,7 +50,7 @@ function addGuest() {
 
       <v-list>
         <v-list-item
-          v-for="guest in props.guests"
+          v-for="guest in guests"
           :key="guest.id"
           variant="plain"
         >

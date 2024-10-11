@@ -26,7 +26,7 @@ onUnmounted(() => {
   <v-card>
     <v-card-title>
       <div class="v-card-title">Mesas</div>
-      <CreateTableDialog :event="props.event" />
+      <CreateTableDialog :event="event" />
     </v-card-title>
     <v-card-text>
       <v-expansion-panels variant="accordion" elevation="1">
