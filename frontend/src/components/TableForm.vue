@@ -61,7 +61,10 @@ watch(
 
 <template>
   <v-row justify="center">
-    <v-col class="v-col-auto">
+    <v-col
+      cols="10"
+      md="6"
+    >
       <v-card :title="title">
         <v-card-text>
           <v-text-field
@@ -93,11 +96,3 @@ watch(
     </v-col>
   </v-row>
 </template>
-
-<style scoped>
-@media screen and (min-width: 64em) {
-  .v-card {
-    min-width: 600px;
-  }
-}
-</style>

@@ -44,12 +44,8 @@ function emitSave() {
 <template>
   <v-row>
     <v-col
-      xs="12"
-      sm="12"
+      cols="12"
       md="6"
-      lg="6"
-      xl="6"
-      xxl="6"
     >
       <v-text-field
         clearable
@@ -59,12 +55,8 @@ function emitSave() {
       ></v-text-field>
     </v-col>
     <v-col
-      xs="12"
-      sm="12"
+      cols="6"
       md="3"
-      lg="3"
-      xl="3"
-      xxl="3"
     >
       <v-text-field
         label="Data do evento"
@@ -74,12 +66,8 @@ function emitSave() {
       ></v-text-field>
     </v-col>
     <v-col
-      xs="12"
-      sm="12"
+      cols="6"
       md="3"
-      lg="3"
-      xl="3"
-      xxl="3"
       class="align-self-center"
     >
       <v-btn

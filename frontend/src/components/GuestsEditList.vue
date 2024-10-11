@@ -31,7 +31,10 @@ function addGuest() {
   <v-card title="Lista de convidados(as)">
     <v-card-text>
       <v-row>
-        <v-col>
+        <v-col
+          cols="12"
+          sm="8"
+        >
           <v-text-field
             label="Nome do(a) convidado(a)"
             variant="underlined"
@@ -39,7 +42,10 @@ function addGuest() {
             clearable
           ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col
+          cols="12"
+          sm="4"
+        >
           <v-btn
             color="success"
             :disabled="invalidForm"
@@ -75,11 +81,5 @@ function addGuest() {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-@media screen and (min-width: 64em) {
-  .v-list-item:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-  }
 }
 </style>
