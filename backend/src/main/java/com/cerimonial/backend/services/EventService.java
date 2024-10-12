@@ -1,6 +1,7 @@
 package com.cerimonial.backend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public Event getEvent(String eventId) {
-        return eventRepository.findById(eventId).orElse(null);
+    public Optional<Event> getEvent(String eventId) {
+        return eventRepository.findById(eventId);
     }
 
     public void updateEvent(Event event, UpdateEventDTO updateEventDTO) {

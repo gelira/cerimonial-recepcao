@@ -52,11 +52,9 @@ public class GuestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Guest createGuest(@Valid @RequestBody CreateGuestDTO createGuestDTO) {
-        Table table = tableService.getTable(createGuestDTO.getTableId());
-
-        if (table == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Table not found");
-        }
+        Table table = tableService.getTable(createGuestDTO.getTableId()).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Table not found")
+        );
 
         return guestService.createGuest(createGuestDTO, table.getEventId());
     }
@@ -64,11 +62,9 @@ public class GuestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGuest(@PathVariable("id") String guestId) {
-        Guest guest = guestService.getGuest(guestId);
-
-        if (guest == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        Guest guest = guestService.getGuest(guestId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
 
         guestService.deleteGuest(guest);
     }

@@ -1,6 +1,7 @@
 package com.cerimonial.backend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,11 @@ public class GuestService {
         return guestRepository.save(guest);
     }
 
-    public Guest getGuest(String guestId) {
-        return guestRepository.findById(guestId).orElse(null);
+    public Optional<Guest> getGuest(String guestId) {
+        return guestRepository.findById(guestId);
     }
 
     public void deleteGuest(Guest guest) {
-        guestRepository.delete(guest);
+        guestRepository.deleteById(guest.getId());
     }
 }

@@ -1,6 +1,7 @@
 package com.cerimonial.backend.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -30,12 +31,12 @@ public class TableService {
         return tableRepository.save(table);
     }
 
-    public Table getTable(String tableId) {
-        return tableRepository.findById(tableId).orElse(null);
+    public Optional<Table> getTable(String tableId) {
+        return tableRepository.findById(tableId);
     }
 
     public void deleteTable(Table table) {
-        tableRepository.delete(table);
+        tableRepository.deleteById(table.getId());
     }
 
     public void updateTable(Table table, UpdateTableDTO updateTableDTO) {

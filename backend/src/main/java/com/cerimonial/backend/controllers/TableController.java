@@ -38,9 +38,9 @@ public class TableController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Table createTable(@Valid @RequestBody CreateTableDTO createTableDTO) {
-        if (eventService.getEvent(createTableDTO.getEventId()) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
-        }
+        eventService.getEvent(createTableDTO.getEventId()).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
 
         return tableService.createTable(createTableDTO);
     }
@@ -48,11 +48,9 @@ public class TableController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTable(@PathVariable("id") String tableId) {
-        Table table = tableService.getTable(tableId);
-
-        if (table == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        Table table = tableService.getTable(tableId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
 
         tableService.deleteTable(table);
     }
@@ -63,11 +61,9 @@ public class TableController {
         @PathVariable("id") String tableId,
         @Valid @RequestBody UpdateTableDTO updateTableDTO
     ) {
-        Table table = tableService.getTable(tableId);
-
-        if (table == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        Table table = tableService.getTable(tableId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
 
         tableService.updateTable(table, updateTableDTO);
     }

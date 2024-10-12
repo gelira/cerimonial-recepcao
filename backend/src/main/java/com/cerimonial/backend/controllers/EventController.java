@@ -43,11 +43,9 @@ public class EventController {
         @PathVariable("id") String eventId,
         @Valid @RequestBody UpdateEventDTO updateEventDTO
     ) {
-        Event event = eventService.getEvent(eventId);
-
-        if (event == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        Event event = eventService.getEvent(eventId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
 
         eventService.updateEvent(event, updateEventDTO);
     }
