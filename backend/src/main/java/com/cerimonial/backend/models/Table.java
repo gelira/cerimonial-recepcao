@@ -1,5 +1,7 @@
 package com.cerimonial.backend.models;
 
+import java.time.OffsetDateTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,4 +17,5 @@ public class Table {
     private String eventId;
     private String identifier;
     private String locationDescription;
+    private OffsetDateTime deletedAt;
 }
