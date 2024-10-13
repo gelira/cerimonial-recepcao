@@ -17,6 +17,5 @@ public class Guest {
     private String eventId;
     private String tableId;
     private String name;
-    private boolean arrived;
     private OffsetDateTime deletedAt;
 }
