@@ -9,11 +9,18 @@ import {
   apiFetchTables,
 } from '../api'
 
+import {
+  saveEventDataToLocalStorage,
+  loadEventDataFromLocalStorage,
+  addEventSaved,
+  removeEventDataFromLocalStorage,
+  removeEventSaved,
+  getListEventSaved,
+} from '../utils/localstorage'
+
 interface State {
   events: IEvent[]
 }
-
-const EVENTS_SAVED_KEY = 'events-saved'
 
 export const useEventsStore = defineStore('events', () => {
   const state = reactive<State>({ events: [] })
@@ -21,13 +28,7 @@ export const useEventsStore = defineStore('events', () => {
   const events = computed(() => state.events)
 
   function getEventLocalStorage(eventId: string) {
-    const strData = localStorage.getItem(`event-${eventId}`)
-
-    if (!strData) {
-      return null
-    }
-
-    return JSON.parse(strData) as IEventLocalStorage
+    return loadEventDataFromLocalStorage(eventId)
   }
 
   function sortByLocalStorage(events?: IEvent[]) {
@@ -75,24 +76,27 @@ export const useEventsStore = defineStore('events', () => {
       apiFetchGuests(event.id),
     ])
 
-    const eventToSave: IEventLocalStorage = {
+    const guestsPreviousSaved = loadEventDataFromLocalStorage(event.id)?.guests ?? []
+
+    guestsData.guests = guestsData.guests.map((g) => ({
+      ...g,
+      arrived: !!guestsPreviousSaved.find((gp) => gp.id === g.id)?.arrived
+    }))
+
+    saveEventDataToLocalStorage(event.id, {
       event,
       ...tablesData,
-      ...guestsData
-    }
+      ...guestsData,
+    })
 
-    localStorage.setItem(`event-${event.id}`, JSON.stringify(eventToSave))
-
-    const eventsSaved: string[] = JSON.parse(localStorage.getItem(EVENTS_SAVED_KEY) ?? '[]')
-
-    localStorage.setItem(EVENTS_SAVED_KEY, JSON.stringify([...eventsSaved, event.id]))
+    addEventSaved(event.id)
 
     sortByLocalStorage()
   }
 
   function deleteEventLocalStorage(event: IEvent) {
-    localStorage.removeItem(`event-${event.id}`)
-
+    removeEventDataFromLocalStorage(event.id)
+    removeEventSaved(event.id)
     sortByLocalStorage()
   }
 
@@ -105,19 +109,12 @@ export const useEventsStore = defineStore('events', () => {
   watch(
     () => state.events,
     (value) => {
-      const eventsSaved: string[] = JSON.parse(localStorage.getItem(EVENTS_SAVED_KEY) ?? '[]')
-
-      const newEventsSaved: string[] = []
-
-      eventsSaved.forEach((e) => {
-        if (value.some((v) => v.id === e)) {
-          newEventsSaved.push(e)
-        } else {
-          localStorage.removeItem(`event-${e}`)
+      getListEventSaved().forEach((e) => {
+        if (value.every((v) => v.id !== e)) {
+          removeEventDataFromLocalStorage(e)
+          removeEventSaved(e)
         }
       })
-
-      localStorage.setItem(EVENTS_SAVED_KEY, JSON.stringify(newEventsSaved))
     }
   )
 
