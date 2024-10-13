@@ -2,9 +2,10 @@
 import { computed, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { apiFetchGuests, apiFetchTables } from '../api'
+import { useEventsStore } from '../stores/events'
 import { ROUTE_NAMES } from '../utils/consts'
 import { formatDate } from '../utils'
+import DeleteEventDialog from './DeleteEventDialog.vue'
 
 const props = defineProps<{ event: IEvent }>()
 
@@ -15,6 +16,8 @@ const state = reactive({
 })
 
 const router = useRouter()
+
+const eventsStore = useEventsStore()
 
 const formattedDate = computed(() => formatDate(props.event.date))
 
@@ -27,28 +30,15 @@ function goToEditView() {
   })
 }
 
-async function saveLocal() {
+async function saveLocalStorage() {
   if (state.saveLocalLoading) {
     return
   }
-  
-  const event = props.event
 
   state.saveLocalLoading = true
 
   try {
-    const [tablesData, guestsData] = await Promise.all([
-      apiFetchTables(event.id),
-      apiFetchGuests(event.id),
-    ])
-
-    const eventToSave: IEventSavedLocal = {
-      event,
-      ...tablesData,
-      ...guestsData
-    }
-
-    localStorage.setItem(`event-${event.id}`, JSON.stringify(eventToSave))
+    await eventsStore.saveEventLocalStorage(props.event)
   } catch {
   } finally {
     state.countForceRerender ++
@@ -59,7 +49,7 @@ async function saveLocal() {
 watch(
   () => state.countForceRerender,
   () => {
-    state.savedLocal = !!localStorage.getItem(`event-${props.event.id}`)
+    state.savedLocal = !!eventsStore.getEventLocalStorage(props.event.id)
   },
   { immediate: true }
 )
@@ -82,8 +72,12 @@ watch(
         :loading="state.saveLocalLoading"
         :icon="state.savedLocal ? 'mdi-content-save-check-outline' : 'mdi-content-save-outline'"
         :color="state.savedLocal && !state.saveLocalLoading ? 'success' : undefined"
-        @click="saveLocal()"
+        @click="saveLocalStorage()"
       ></v-btn>
+      <DeleteEventDialog
+        :event="event"
+        @deleted="state.countForceRerender++"
+      />
     </v-card-actions>
   </v-card>
 </template>

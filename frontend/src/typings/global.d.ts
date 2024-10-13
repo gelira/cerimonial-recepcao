@@ -24,7 +24,7 @@ declare global {
     cleanedName: string
   }
 
-  interface IEventSavedLocal {
+  interface IEventLocalStorage {
     event: IEvent
     tables: ITable[]
     guests: IGuest[]
