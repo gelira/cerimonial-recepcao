@@ -4,13 +4,14 @@ import { ROUTE_NAMES } from '../utils/consts'
 import HomeView from '../views/HomeView.vue'
 import ListEventsView from '../views/ListEventsView.vue'
 import EditEventView from '../views/EditEventView.vue'
+import EventReceptionView from '../views/EventReceptionView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: ROUTE_NAMES.HOME,
       component: HomeView,
       children: [
         {
@@ -22,10 +23,15 @@ const router = createRouter({
           path: 'event/:id',
           name: ROUTE_NAMES.EDIT_EVENT,
           component: EditEventView
-        }
-      ]
-    }
-  ]
+        },
+        {
+          path: 'event-reception/:id',
+          name: ROUTE_NAMES.EVENT_RECEPTION,
+          component: EventReceptionView
+        },
+      ],
+    },
+  ],
 })
 
 export default router

@@ -23,13 +23,16 @@ export const useGuestsStore = defineStore('guests', () => {
     return state.guests.filter((g) => g.cleanedName.includes(cleanedSearch.value))
   })
 
+  
+  function setGuests(guestsList: IGuest[]) {
+    state.guests = guestsList.map(
+      (g) => ({ ...g, cleanedName: removeAccents(g.name.toLowerCase()) })
+    )
+  }
+
   function fetchGuests(eventId: string) {
     apiFetchGuests(eventId)
-      .then((data) => {
-        state.guests = data.guests.map(
-          (g) => ({ ...g, cleanedName: removeAccents(g.name.toLowerCase()) })
-        )
-      })
+      .then((data) => setGuests(data.guests))
       .catch(() => state.guests = [])
   }
 
@@ -67,5 +70,16 @@ export const useGuestsStore = defineStore('guests', () => {
     } catch {}
   }
 
-  return { guests, guestsFiltered, cleanedSearch, fetchGuests, cleanGuests, setSearch, toggleGuest, deleteGuest, createGuest }
+  return {
+    guests,
+    guestsFiltered,
+    cleanedSearch,
+    fetchGuests,
+    cleanGuests,
+    setSearch,
+    setGuests,
+    toggleGuest,
+    deleteGuest,
+    createGuest,
+  }
 })

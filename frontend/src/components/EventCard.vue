@@ -16,7 +16,6 @@ const state = reactive({
 })
 
 const router = useRouter()
-
 const eventsStore = useEventsStore()
 
 const formattedDate = computed(() => formatDate(props.event.date))
@@ -24,6 +23,15 @@ const formattedDate = computed(() => formatDate(props.event.date))
 function goToEditView() {
   router.push({
     name: ROUTE_NAMES.EDIT_EVENT,
+    params: {
+      id: props.event.id,
+    },
+  })
+}
+
+function goToEventReceptionView() {
+  router.push({
+    name: ROUTE_NAMES.EVENT_RECEPTION,
     params: {
       id: props.event.id,
     },
@@ -67,6 +75,7 @@ watch(
       <v-btn
         icon="mdi-clipboard-text-outline"
         :disabled="!state.savedLocal"
+        @click="goToEventReceptionView()"
       ></v-btn>
       <v-btn
         :loading="state.saveLocalLoading"

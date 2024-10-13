@@ -12,9 +12,13 @@ export const useTablesStore = defineStore('tables', () => {
   
   const tables = computed(() => state.tables)
   
+  function setTables(tablesList: ITable[]) {
+    state.tables = tablesList
+  }
+
   function fetchTables(eventId: string) {
     apiFetchTables(eventId)
-      .then((data) => state.tables = data.tables)
+      .then((data) => setTables(data.tables))
       .catch(() => state.tables = [])
   }
 
@@ -52,5 +56,13 @@ export const useTablesStore = defineStore('tables', () => {
     } catch {}
   }
 
-  return { tables, fetchTables, cleanTables, createTable, deleteTable, updateTable }
+  return {
+    tables,
+    setTables,
+    fetchTables,
+    cleanTables,
+    createTable,
+    deleteTable,
+    updateTable,
+  }
 })
