@@ -1,6 +1,7 @@
 package com.cerimonial.backend.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,15 @@ public class EventController {
         );
 
         eventService.updateEvent(event, updateEventDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvent(@PathVariable("id") String eventId) {
+        Event event = eventService.getEvent(eventId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+
+        eventService.deleteEvent(event);
     }
 }
