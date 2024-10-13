@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
+import { computed, reactive, watch } from 'vue'
 
 import {
   apiFetchEvents,
@@ -12,6 +12,8 @@ import {
 interface State {
   events: IEvent[]
 }
+
+const EVENTS_SAVED_KEY = 'events-saved'
 
 export const useEventsStore = defineStore('events', () => {
   const state = reactive<State>({ events: [] })
@@ -81,6 +83,10 @@ export const useEventsStore = defineStore('events', () => {
 
     localStorage.setItem(`event-${event.id}`, JSON.stringify(eventToSave))
 
+    const eventsSaved: string[] = JSON.parse(localStorage.getItem(EVENTS_SAVED_KEY) ?? '[]')
+
+    localStorage.setItem(EVENTS_SAVED_KEY, JSON.stringify([...eventsSaved, event.id]))
+
     sortByLocalStorage()
   }
 
@@ -95,6 +101,25 @@ export const useEventsStore = defineStore('events', () => {
       .then((data) => sortByLocalStorage(data.events))
       .catch(() => state.events = [])
   }
+
+  watch(
+    () => state.events,
+    (value) => {
+      const eventsSaved: string[] = JSON.parse(localStorage.getItem(EVENTS_SAVED_KEY) ?? '[]')
+
+      const newEventsSaved: string[] = []
+
+      eventsSaved.forEach((e) => {
+        if (value.some((v) => v.id === e)) {
+          newEventsSaved.push(e)
+        } else {
+          localStorage.removeItem(`event-${e}`)
+        }
+      })
+
+      localStorage.setItem(EVENTS_SAVED_KEY, JSON.stringify(newEventsSaved))
+    }
+  )
 
   return {
     events,
