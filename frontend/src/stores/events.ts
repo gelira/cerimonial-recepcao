@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 
-import { apiFetchEvents, apiUpdateEvent } from '../api'
+import { apiFetchEvents, apiUpdateEvent, apiDeleteEvent } from '../api'
 
 interface State {
   events: IEvent[]
@@ -32,5 +32,13 @@ export const useEventsStore = defineStore('events', () => {
       .catch(() => {})
   }
 
-  return { events, fetchEvents, updateEvent }
+  function deleteEvent(event: IEvent) {
+    apiDeleteEvent(event.id)
+      .then(() => {
+        state.events = state.events.filter((e) => e.id !== event.id)
+      })
+      .catch(() => {})
+  }
+
+  return { events, fetchEvents, updateEvent, deleteEvent }
 })

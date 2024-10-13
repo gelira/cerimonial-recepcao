@@ -55,6 +55,12 @@ export async function apiDeleteTable(tableId: string) {
   })
 }
 
+export async function apiDeleteEvent(eventId: string) {
+  await fetch(`${BASE_URL}/events/${eventId}`, {
+    method: 'DELETE',
+  })
+}
+
 export async function apiCreateGuest(body: { tableId: string, name: string }) {
   await fetch(`${BASE_URL}/guests`, {
     method: 'POST',
