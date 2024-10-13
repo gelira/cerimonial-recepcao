@@ -23,6 +23,12 @@ declare global {
   interface IGuestCleaned extends IGuest {
     cleanedName: string
   }
+
+  interface IEventSavedLocal {
+    event: IEvent
+    tables: ITable[]
+    guests: IGuest[]
+  }
 }
 
 export { }
