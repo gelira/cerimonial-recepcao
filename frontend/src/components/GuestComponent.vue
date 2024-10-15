@@ -2,6 +2,10 @@
 import { computed } from 'vue'
 
 import { useGuestsStore } from '../stores/guests'
+import {
+  loadEventDataFromLocalStorage,
+  saveEventDataToLocalStorage,
+} from '../utils/localstorage'
 
 const props = defineProps<{ guest: IGuestCleaned }>()
 
@@ -25,6 +29,21 @@ const nameSplitted = computed<{ part: string, decorate: boolean }[]>(() => {
     { part: guestName.substring(endIndex), decorate: false },
   ]
 })
+
+function handleClick() {
+  guestsStore.toggleGuest(props.guest.id)
+
+  const data = loadEventDataFromLocalStorage(props.guest.eventId)
+
+  if (data) {
+    data.guests = data.guests.map((g) => ({
+      ...g,
+      arrived: g.id === props.guest.id ? !props.guest.arrived : g.arrived
+    }))
+
+    saveEventDataToLocalStorage(props.guest.eventId, data)
+  }
+}
 </script>
 
 <template>
@@ -34,7 +53,7 @@ const nameSplitted = computed<{ part: string, decorate: boolean }[]>(() => {
         variant="text"
         :prepend-icon="guest.arrived ? 'mdi-checkbox-outline' : 'mdi-checkbox-blank-outline'"
         :color="guest.arrived ? 'success' : undefined"
-        @click="guestsStore.toggleGuest(guest.id)"
+        @click="handleClick()"
       >
         <span
           :class="{ arrived: guest.arrived }"

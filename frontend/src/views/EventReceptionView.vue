@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, watch } from 'vue'
+import { computed, onMounted, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import TableComponent from '../components/TableComponent.vue'
@@ -19,9 +19,16 @@ const state = reactive<{
   event?: IEvent
 }>({ search: '', tableIds: [] })
 
+const listTableIds = computed(
+  () => tablesStore.tables.map(({ id }) => id)
+)
+
 watch(
   () => state.search ?? '', 
-  (value) => guestsStore.setSearch(value)
+  (value) => {
+    guestsStore.setSearch(value)
+    state.tableIds = listTableIds.value
+  }
 )
 
 onMounted(() => {
