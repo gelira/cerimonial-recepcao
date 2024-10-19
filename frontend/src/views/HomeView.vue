@@ -1,17 +1,22 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
-import { useEventsStore } from '../stores/events';
-import { ROUTE_NAMES } from '../utils/consts';
+import { useEventsStore } from '../stores/events'
+import { ROUTE_NAMES } from '../utils/consts'
 
-const eventsStore = useEventsStore();
-const router = useRouter();
+const eventsStore = useEventsStore()
+const router = useRouter()
+const route = useRoute()
 
 onMounted(() => {
-  eventsStore.fetchEvents();
-  router.push({ name: ROUTE_NAMES.LIST_EVENTS });
-});
+  if (route.name !== ROUTE_NAMES.HOME) {
+    return
+  }
+
+  eventsStore.fetchEvents()
+  router.push({ name: ROUTE_NAMES.LIST_EVENTS })
+})
 </script>
 
 <template>

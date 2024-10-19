@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { useEventsStore } from '../stores/events'
@@ -11,13 +11,19 @@ const eventsStore = useEventsStore()
 
 const event = computed(() => {
   const eventId = route.params.id as string
-  return eventsStore.events.find((e) => e.id === eventId)!
+  return eventsStore.events.find((e) => e.id === eventId)
+})
+
+onMounted(() => {
+  if (eventsStore.events.length === 0) {
+    eventsStore.fetchEvents()
+  }
 })
 </script>
 
 <template>
   <div class="header-container">
-    <h2>{{ event.name }}</h2>
+    <h2>{{ event?.name }}</h2>
     <EventFormDialog
       title="Editar evento"
       :event="event"
@@ -31,7 +37,10 @@ const event = computed(() => {
       ></v-btn>
     </EventFormDialog>
   </div>
-  <TablesEditList :event="event" />
+  <TablesEditList
+    v-if="!!event"
+    :event="event"
+  />
 </template>
 
 <style scoped>
